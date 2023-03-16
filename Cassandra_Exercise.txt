@@ -1,0 +1,666 @@
+cqlsh> CREATE KEYSPACE simpledb
+   ... WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 3};
+
+Warnings :
+Your replication factor 3 for keyspace simpledb is higher than the number of nodes 1
+
+cqlsh> describe keyspaces;
+
+simpledb  system_schema  system_auth  system  system_distributed  system_traces
+
+cqlsh> CREATE KEYSPACE SampleDemoDB
+   ... WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 3};
+
+Warnings :
+Your replication factor 3 for keyspace sampledemodb is higher than the number of nodes 1
+
+cqlsh> CREATE KEYSPACE simpledb
+   ... WITH replication = {'class':'SimpleStrategy', 'replication_factor' : 1};
+AlreadyExists: Keyspace 'simpledb' already exists
+cqlsh> describe simpledb
+
+CREATE KEYSPACE simpledb WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '3'}  AND durable_writes = true;
+
+cqlsh> describe keyspaces
+
+simpledb       system_auth  sampledemodb        system_traces
+system_schema  system       system_distributed
+
+cqlsh> describe system_schema
+
+CREATE KEYSPACE system_schema WITH replication = {'class': 'LocalStrategy'}  AND durable_writes = true;
+
+CREATE TABLE system_schema.tables (
+    keyspace_name text,
+    table_name text,
+    bloom_filter_fp_chance double,
+    caching frozen<map<text, text>>,
+    cdc boolean,
+    comment text,
+    compaction frozen<map<text, text>>,
+    compression frozen<map<text, text>>,
+    crc_check_chance double,
+    dclocal_read_repair_chance double,
+    default_time_to_live int,
+    extensions frozen<map<text, blob>>,
+    flags frozen<set<text>>,
+    gc_grace_seconds int,
+    id uuid,
+    max_index_interval int,
+    memtable_flush_period_in_ms int,
+    min_index_interval int,
+    read_repair_chance double,
+    speculative_retry text,
+    PRIMARY KEY (keyspace_name, table_name)
+) WITH CLUSTERING ORDER BY (table_name ASC)
+    AND bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = 'table definitions'
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.0
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 604800
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 3600000
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99PERCENTILE';
+
+CREATE TABLE system_schema.functions (
+    keyspace_name text,
+    function_name text,
+    argument_types frozen<list<text>>,
+    argument_names frozen<list<text>>,
+    body text,
+    called_on_null_input boolean,
+    language text,
+    return_type text,
+    PRIMARY KEY (keyspace_name, function_name, argument_types)
+) WITH CLUSTERING ORDER BY (function_name ASC, argument_types ASC)
+    AND bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = 'user defined function definitions'
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.0
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 604800
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 3600000
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99PERCENTILE';
+
+CREATE TABLE system_schema.triggers (
+    keyspace_name text,
+    table_name text,
+    trigger_name text,
+    options frozen<map<text, text>>,
+    PRIMARY KEY (keyspace_name, table_name, trigger_name)
+) WITH CLUSTERING ORDER BY (table_name ASC, trigger_name ASC)
+    AND bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = 'trigger definitions'
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.0
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 604800
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 3600000
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99PERCENTILE';
+
+CREATE TABLE system_schema.aggregates (
+    keyspace_name text,
+    aggregate_name text,
+    argument_types frozen<list<text>>,
+    final_func text,
+    initcond text,
+    return_type text,
+    state_func text,
+    state_type text,
+    PRIMARY KEY (keyspace_name, aggregate_name, argument_types)
+) WITH CLUSTERING ORDER BY (aggregate_name ASC, argument_types ASC)
+    AND bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = 'user defined aggregate definitions'
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.0
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 604800
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 3600000
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99PERCENTILE';
+
+CREATE TABLE system_schema.views (
+    keyspace_name text,
+    view_name text,
+    base_table_id uuid,
+    base_table_name text,
+    bloom_filter_fp_chance double,
+    caching frozen<map<text, text>>,
+    cdc boolean,
+    comment text,
+    compaction frozen<map<text, text>>,
+    compression frozen<map<text, text>>,
+    crc_check_chance double,
+    dclocal_read_repair_chance double,
+    default_time_to_live int,
+    extensions frozen<map<text, blob>>,
+    gc_grace_seconds int,
+    id uuid,
+    include_all_columns boolean,
+    max_index_interval int,
+    memtable_flush_period_in_ms int,
+    min_index_interval int,
+    read_repair_chance double,
+    speculative_retry text,
+    where_clause text,
+    PRIMARY KEY (keyspace_name, view_name)
+) WITH CLUSTERING ORDER BY (view_name ASC)
+    AND bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = 'view definitions'
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.0
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 604800
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 3600000
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99PERCENTILE';
+
+CREATE TABLE system_schema.indexes (
+    keyspace_name text,
+    table_name text,
+    index_name text,
+    kind text,
+    options frozen<map<text, text>>,
+    PRIMARY KEY (keyspace_name, table_name, index_name)
+) WITH CLUSTERING ORDER BY (table_name ASC, index_name ASC)
+    AND bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = 'secondary index definitions'
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.0
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 604800
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 3600000
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99PERCENTILE';
+
+CREATE TABLE system_schema.keyspaces (
+    keyspace_name text PRIMARY KEY,
+    durable_writes boolean,
+    replication frozen<map<text, text>>
+) WITH bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = 'keyspace definitions'
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.0
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 604800
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 3600000
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99PERCENTILE';
+
+CREATE TABLE system_schema.types (
+    keyspace_name text,
+    type_name text,
+    field_names frozen<list<text>>,
+    field_types frozen<list<text>>,
+    PRIMARY KEY (keyspace_name, type_name)
+) WITH CLUSTERING ORDER BY (type_name ASC)
+    AND bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = 'user defined type definitions'
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.0
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 604800
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 3600000
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99PERCENTILE';
+
+CREATE TABLE system_schema.dropped_columns (
+    keyspace_name text,
+    table_name text,
+    column_name text,
+    dropped_time timestamp,
+    kind text,
+    type text,
+    PRIMARY KEY (keyspace_name, table_name, column_name)
+) WITH CLUSTERING ORDER BY (table_name ASC, column_name ASC)
+    AND bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = 'dropped column registry'
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.0
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 604800
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 3600000
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99PERCENTILE';
+
+CREATE TABLE system_schema.columns (
+    keyspace_name text,
+    table_name text,
+    column_name text,
+    clustering_order text,
+    column_name_bytes blob,
+    kind text,
+    position int,
+    type text,
+    PRIMARY KEY (keyspace_name, table_name, column_name)
+) WITH CLUSTERING ORDER BY (table_name ASC, column_name ASC)
+    AND bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = 'column definitions'
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.0
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 604800
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 3600000
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99PERCENTILE';
+
+cqlsh> describe tables;
+
+Keyspace simpledb
+-----------------
+<empty>
+
+Keyspace system_schema
+----------------------
+tables     triggers    views    keyspaces  dropped_columns
+functions  aggregates  indexes  types      columns
+
+Keyspace system_auth
+--------------------
+resource_role_permissons_index  role_permissions  role_members  roles
+
+Keyspace system
+---------------
+available_ranges          peers               batchlog        transferred_ranges
+batches                   compaction_history  size_estimates  hints
+prepared_statements       sstable_activity    built_views
+"IndexInfo"               peer_events         range_xfers
+views_builds_in_progress  paxos               local
+
+Keyspace sampledemodb
+---------------------
+<empty>
+
+Keyspace system_distributed
+---------------------------
+repair_history  view_build_status  parent_repair_history
+
+Keyspace system_traces
+----------------------
+events  sessions
+
+cqlsh> use sample
+   ... ;
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Keyspace 'sample' does not exist"
+cqlsh> use sampledemodb;
+cqlsh:sampledemodb> CREATE TABLE employee(
+                ...    emp_id int PRIMARY KEY,
+                ...    emp_name text,
+                ...    emp_city text,
+                ...    emp_sal varint,
+                ...    emp_phone varint
+                ...    );
+cqlsh:sampledemodb> describe tables
+
+employee
+
+cqlsh:sampledemodb> describe employee
+
+CREATE TABLE sampledemodb.employee (
+    emp_id int PRIMARY KEY,
+    emp_city text,
+    emp_name text,
+    emp_phone varint,
+    emp_sal varint
+) WITH bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = ''
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.1
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 864000
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 0
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99PERCENTILE';
+
+cqlsh:sampledemodb> select * from employee;
+
+ emp_id | emp_city | emp_name | emp_phone | emp_sal
+--------+----------+----------+-----------+---------
+
+(0 rows)
+cqlsh:sampledemodb> CREATE TABLE employee(
+                ...                 ...    emp_id int PRIMARY KEY,
+                ...                 ...    emp_name text,
+                ...                 ...    emp_city text,
+                ...                 ...    emp_sal varint,
+                ...                 ...    emp_phone varint
+                ...
+                ...
+                ... .
+                ... '/.'
+                ...
+Incomplete statement at end of file
+Traceback (most recent call last):
+  File "C:\apache-cassandra-3.11.14\bin\\cqlsh.py", line 2458, in <module>
+    main(*read_options(sys.argv[1:], os.environ))
+  File "C:\apache-cassandra-3.11.14\bin\\cqlsh.py", line 2446, in main
+    shell.cmdloop()
+  File "C:\apache-cassandra-3.11.14\bin\\cqlsh.py", line 893, in cmdloop
+    self.handle_eof()
+  File "C:\apache-cassandra-3.11.14\bin\\cqlsh.py", line 942, in handle_eof
+    self.printerr('Incomplete statement at end of file')
+  File "C:\apache-cassandra-3.11.14\bin\\cqlsh.py", line 2131, in printerr
+    self.writeresult(text, color, newline=newline, out=sys.stderr)
+  File "C:\apache-cassandra-3.11.14\bin\\cqlsh.py", line 2120, in writeresult
+    out.write(to_write)
+KeyboardInterrupt
+Terminate batch job (Y/N)? n
+C:\Users\Morris>cqlsh
+
+WARNING: console codepage must be set to cp65001 to support utf-8 encoding on Windows platforms.
+If you experience encoding problems, change your console codepage with 'chcp 65001' before starting cqlsh.
+
+Connected to Test Cluster at 127.0.0.1:9042.
+[cqlsh 5.0.1 | Cassandra 3.11.14 | CQL spec 3.4.4 | Native protocol v4]
+Use HELP for help.
+WARNING: pyreadline dependency missing.  Install to enable tab completion.
+cqlsh> select * from employee;
+InvalidRequest: Error from server: code=2200 [Invalid query] message="No keyspace has been specified. USE a keyspace, or explicitly specify keyspace.tablename"
+cqlsh> describe tables;
+
+Keyspace simpledb
+-----------------
+<empty>
+
+Keyspace system_schema
+----------------------
+tables     triggers    views    keyspaces  dropped_columns
+functions  aggregates  indexes  types      columns
+
+Keyspace system_auth
+--------------------
+resource_role_permissons_index  role_permissions  role_members  roles
+
+Keyspace system
+---------------
+available_ranges          peers               batchlog        transferred_ranges
+batches                   compaction_history  size_estimates  hints
+prepared_statements       sstable_activity    built_views
+"IndexInfo"               peer_events         range_xfers
+views_builds_in_progress  paxos               local
+
+Keyspace sampledemodb
+---------------------
+employee
+
+Keyspace system_distributed
+---------------------------
+repair_history  view_build_status  parent_repair_history
+
+Keyspace system_traces
+----------------------
+events  sessions
+
+cqlsh> describe keyspaces
+
+simpledb       system_auth  sampledemodb        system_traces
+system_schema  system       system_distributed
+
+cqlsh> use sampledemodb;
+cqlsh:sampledemodb> describe tables;
+
+employee
+
+cqlsh:sampledemodb> select * from employee;
+
+ emp_id | emp_city | emp_name | emp_phone | emp_sal
+--------+----------+----------+-----------+---------
+
+(0 rows)
+cqlsh:sampledemodb> INSERT INTO emp (emp_id, emp_name, emp_city,
+                ...    emp_phone, emp_sal) VALUES(1,'ram', 'Hyderabad', 9848022338, 50000);
+InvalidRequest: Error from server: code=2200 [Invalid query] message="unconfigured table emp"
+cqlsh:sampledemodb> INSERT INTO empployee (emp_id, emp_name, emp_city,
+                ...    emp_phone, emp_sal) VALUES(1,'ram', 'Hyderabad', 9848022338, 50000);
+InvalidRequest: Error from server: code=2200 [Invalid query] message="unconfigured table empployee"
+cqlsh:sampledemodb> INSERT INTO employee (emp_id, emp_name, emp_city,
+                ...    emp_phone, emp_sal) VALUES(1,'ram', 'Hyderabad', 9848022338, 50000);
+cqlsh:sampledemodb>  INSERT INTO employee (emp_id, emp_name, emp_city,
+                ...    emp_phone, emp_sal) VALUES(2,'robin', 'Hyderabad', 9848022339, 40000);
+cqlsh:sampledemodb> INSERT INTO employee (emp_id, emp_name, emp_city,
+                ...    emp_phone, emp_sal) VALUES(3,'rahman', 'Chennai', 9848022330, 45000);
+cqlsh:sampledemodb> select * from employee
+                ... ;
+
+ emp_id | emp_city  | emp_name | emp_phone  | emp_sal
+--------+-----------+----------+------------+---------
+      1 | Hyderabad |      ram | 9848022338 |   50000
+      2 | Hyderabad |    robin | 9848022339 |   40000
+      3 |   Chennai |   rahman | 9848022330 |   45000
+
+(3 rows)
+cqlsh:sampledemodb> UPDATE employee SET emp_city='Delhi',emp_sal=50000
+                ...    WHERE emp_id=2;
+cqlsh:sampledemodb> select * from employee;
+
+ emp_id | emp_city  | emp_name | emp_phone  | emp_sal
+--------+-----------+----------+------------+---------
+      1 | Hyderabad |      ram | 9848022338 |   50000
+      2 |     Delhi |    robin | 9848022339 |   50000
+      3 |   Chennai |   rahman | 9848022330 |   45000
+
+(3 rows)
+cqlsh:sampledemodb> INSERT INTO employee (emp_id, emp_name, emp_city,
+                ...    emp_phone, emp_sal) VALUES(4,'Morris', 'Hyderabad', 9848022338, 50000);
+cqlsh:sampledemodb>  INSERT INTO employee (emp_id, emp_name, emp_city,
+                ...    emp_phone, emp_sal) VALUES(5,'Candy', 'Hyderabad', 9848022339, 40000);
+cqlsh:sampledemodb>
+cqlsh:sampledemodb> select * from emplyee;
+InvalidRequest: Error from server: code=2200 [Invalid query] message="unconfigured table emplyee"
+cqlsh:sampledemodb> select * from employee;
+
+ emp_id | emp_city  | emp_name | emp_phone  | emp_sal
+--------+-----------+----------+------------+---------
+      5 | Hyderabad |    Candy | 9848022339 |   40000
+      1 | Hyderabad |      ram | 9848022338 |   50000
+      2 |     Delhi |    robin | 9848022339 |   50000
+      4 | Hyderabad |   Morris | 9848022338 |   50000
+      3 |   Chennai |   rahman | 9848022330 |   45000
+
+(5 rows)
+cqlsh:sampledemodb> select * from emp_name, emp_sal from employee;
+SyntaxException: line 1:22 no viable alternative at input ',' (select * from [emp_name],...)
+cqlsh:sampledemodb> select emp_name, emp_sal from employee;
+
+ emp_name | emp_sal
+----------+---------
+    Candy |   40000
+      ram |   50000
+    robin |   50000
+   Morris |   50000
+   rahman |   45000
+
+(5 rows)
+cqlsh:sampledemodb> delete emp_sal from employee where emp_id = 1;
+cqlsh:sampledemodb> select * from employee;
+
+ emp_id | emp_city  | emp_name | emp_phone  | emp_sal
+--------+-----------+----------+------------+---------
+      5 | Hyderabad |    Candy | 9848022339 |   40000
+      1 | Hyderabad |      ram | 9848022338 |    null
+      2 |     Delhi |    robin | 9848022339 |   50000
+      4 | Hyderabad |   Morris | 9848022338 |   50000
+      3 |   Chennai |   rahman | 9848022330 |   45000
+
+(5 rows)
+cqlsh:sampledemodb> CREATE TABLE dept(
+                ...    dept_id int PRIMARY KEY,
+                ...    dept_name text,
+                ...    dept_city text,
+                ...    dept_sal varint,
+                ...    dept_phone varint
+                ...    );
+cqlsh:sampledemodb> drop table dept;
+cqlsh:sampledemodb> describe tables;
+
+employee
+
+cqlsh:sampledemodb> CREATE TABLE dept(
+                ...    dept_id int PRIMARY KEY,
+                ...    dept_name text,
+                ...    dept_project varint,
+                ...    dept_phone varint
+                ...    );
+cqlsh:sampledemodb> INSERT INTO dept (dept_id, dept_name,
+                ...    dept_phone, dept_project) VALUES(1,'Data Science', 'Hyderabad', 9848022338, Trends);
+SyntaxException: line 2:85 no viable alternative at input ')' (...,'Data Science', 'Hyderabad', 9848022338, [Trends])...)
+cqlsh:sampledemodb> INSERT INTO dept (dept_id, dept_name,
+                ...    dept_phone, dept_project) VALUES(1,'Data Science', 9848022338, Trends);
+SyntaxException: line 2:72 no viable alternative at input ')' (...VALUES(1,'Data Science', 9848022338, [Trends])...)
+cqlsh:sampledemodb> INSERT INTO dept (dept_id, dept_name,
+                ...    dept_phone, dept_project) VALUES(1,'Data Science', 9848022338, 'Trends');
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Invalid STRING constant (Trends) for "dept_project" of type varint"
+cqlsh:sampledemodb>
+cqlsh:sampledemodb> alter table dept where dept_project varient = dept_project text;
+SyntaxException: line 1:17 no viable alternative at input 'where' (alter table dept [where] dept_project...)
+cqlsh:sampledemodb> alter table dept where dept_project = text;
+SyntaxException: line 1:17 no viable alternative at input 'where' (alter table dept [where] dept_project...)
+cqlsh:sampledemodb> INSERT INTO dept (dept_id, dept_name,
+                ...    dept_phone, dept_project) VALUES(1,'Data Science', 9848022338, 10);
+cqlsh:sampledemodb> INSERT INTO dept (dept_id, dept_name, dept_city,
+                ...    dept_phone, dept_project) VALUES(2,'Marketing', 9848022339, 39);
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Unmatched column names/values"
+cqlsh:sampledemodb> INSERT INTO dept (dept_id, dept_name,
+                ...    dept_phone, dept_project) VALUES(2,'Marketing', 9848022339, 39);
+cqlsh:sampledemodb> INSERT INTO dept (dept_id, dept_name,
+                ...    dept_phone, dept_project) VALUES(3,'Hr', 'Chennai', 17);
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Invalid STRING constant (Chennai) for "dept_phone" of type varint"
+cqlsh:sampledemodb> INSERT INTO dept (dept_id, dept_name,
+                ...    dept_phone, dept_project) VALUES(3,'Hr', 'Chennai', 9959699506, 17);
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Unmatched column names/values"
+cqlsh:sampledemodb> select * from dept;
+
+ dept_id | dept_name    | dept_phone | dept_project
+---------+--------------+------------+--------------
+       1 | Data Science | 9848022338 |           10
+       2 |    Marketing | 9848022339 |           39
+
+(2 rows)
+cqlsh:sampledemodb> truncate table dept;
+cqlsh:sampledemodb> select * from dept;
+
+ dept_id | dept_name | dept_phone | dept_project
+---------+-----------+------------+--------------
+
+(0 rows)
+cqlsh:sampledemodb> drop table dept;
+cqlsh:sampledemodb> describe tables;
+
+employee
+
+cqlsh:sampledemodb> drop index 1;
+SyntaxException: line 1:11 no viable alternative at input '1' (drop index [1]...)
+cqlsh:sampledemodb> drop index emp_phone;
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Index 'emp_phone' could not be found in any of the tables of keyspace 'sampledemodb'"
+cqlsh:sampledemodb> drop index emp_phone from employee;
+SyntaxException: line 1:21 no viable alternative at input 'from' (drop index [emp_phone] from...)
+cqlsh:sampledemodb> CREATE TABLE data(name text PRIMARY KEY, email list<text>);
+cqlsh:sampledemodb> describe tables;
+
+employee  data
+
+cqlsh:sampledemodb> describe data;
+
+CREATE TABLE sampledemodb.data (
+    name text PRIMARY KEY,
+    email list<text>
+) WITH bloom_filter_fp_chance = 0.01
+    AND caching = {'keys': 'ALL', 'rows_per_partition': 'NONE'}
+    AND comment = ''
+    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy', 'max_threshold': '32', 'min_threshold': '4'}
+    AND compression = {'chunk_length_in_kb': '64', 'class': 'org.apache.cassandra.io.compress.LZ4Compressor'}
+    AND crc_check_chance = 1.0
+    AND dclocal_read_repair_chance = 0.1
+    AND default_time_to_live = 0
+    AND gc_grace_seconds = 864000
+    AND max_index_interval = 2048
+    AND memtable_flush_period_in_ms = 0
+    AND min_index_interval = 128
+    AND read_repair_chance = 0.0
+    AND speculative_retry = '99PERCENTILE';
+
+cqlsh:sampledemodb> INSERT INTO data(name, email) VALUES ('ramu',
+                ... ['abc@gmail.com','cba@yahoo.com'])
+                ... ;
+cqlsh:sampledemodb> INSERT INTO data(name, email) VALUES ('anil',
+                ... ['qwe@gmail.com','ewq@yahoo.com']);
+cqlsh:sampledemodb>
+cqlsh:sampledemodb> INSERT INTO data(name, email) VALUES ('sunil',
+                ... ['ghj@gmail.com','fgh@yahoo.com']);
+cqlsh:sampledemodb>
+cqlsh:sampledemodb> INSERT INTO data(name, email) VALUES ('suma',
+                ... ['wer@gmail.com','ert@yahoo.com']);
+cqlsh:sampledemodb>
+cqlsh:sampledemodb> INSERT INTO data(name, email) VALUES ('sangeetha',
+                ... ['asd@gmail.com','dsa@yahoo.com']);
+cqlsh:sampledemodb>
+cqlsh:sampledemodb> select * from data;
+
+ name      | email
+-----------+------------------------------------
+ sangeetha | ['asd@gmail.com', 'dsa@yahoo.com']
+      anil | ['qwe@gmail.com', 'ewq@yahoo.com']
+     sunil | ['ghj@gmail.com', 'fgh@yahoo.com']
+      ramu | ['abc@gmail.com', 'cba@yahoo.com']
+      suma | ['wer@gmail.com', 'ert@yahoo.com']
+
+(5 rows)
+cqlsh:sampledemodb>
